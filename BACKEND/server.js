@@ -8,12 +8,14 @@ if(env==='development'){
 const mongoose=require('./db/mongoose');
 const {productModel}=require('./Models/product');
 const express =require('express');
+const bodyParser = require('body-parser');
 //////////////////////////
 
 
 
 let port = process.env.PORT;
 const app = express();
+app.use(bodyParser.json());
 
 
 app.get('/searchName/:line',(req,res)=>{
@@ -27,6 +29,8 @@ app.get('/searchName/:line',(req,res)=>{
     })).catch((err)=>{
         res.status(404).send(err)
     });
+
+    console.log('passedhere');
 
 });
 
