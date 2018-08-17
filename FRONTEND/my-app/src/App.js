@@ -10,15 +10,14 @@ class Search extends Component {
     query: '',
     results: []
   }
- points=[];
+ 
   getInfo =_.debounce(() => {
     axios.get(`${API_URL}/${this.state.query}`)
       .then((res) => {
         this.setState({
           results: res.data
         });
-        this.points=this.state.results.map((element)=><li> {element.name} </li>);
-        console.log(this.points);
+      
         
       }).catch((err)=>{
         console.log(err);
@@ -34,6 +33,8 @@ class Search extends Component {
           console.log('change');
           this.getInfo()
         }
+      }else if(this.state.query.length<=1){
+        this.setState({results:[]});
       } 
     })
   }
@@ -46,7 +47,13 @@ class Search extends Component {
           ref={input => this.search = input}
           onChange={this.handleInputChange}
         />
-        <ul> {this.points}</ul>
+           <ul className="list-group text-center">
+              {
+                this.state.results.map(function(key,i) {
+                  return <li className="list-group-item list-group-item-info">{key.name}</li>
+                })
+              }
+            </ul>
       </form>
     )
   }
