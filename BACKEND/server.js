@@ -27,13 +27,12 @@ app.get('/searchName/:line',(req,res)=>{
     ] }
     ).limit(10)
      .then((docs)=>{
-        console.log("done");
         res.status(200).send(docs);
     }).catch((err)=>{
         res.status(404).send(err)
     });
 
-    console.log('passedhere');
+    
 
 });
 
