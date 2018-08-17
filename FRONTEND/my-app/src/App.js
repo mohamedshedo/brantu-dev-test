@@ -3,23 +3,23 @@ import './App.css';
 
 import axios from 'axios';
 import _ from 'lodash';
-const API_URL = 'https://localhost:2000/searchName'
+const API_URL = 'http://localhost:2000/searchName'
 
 class Search extends Component {
   state = {
     query: '',
     results: []
   }
-
+ points=[];
   getInfo =_.debounce(() => {
     axios.get(`${API_URL}/${this.state.query}`)
-
-      .then(( data ) => {
+      .then((res) => {
         this.setState({
-          results: data.data // MusicGraph returns an object named data, 
-                             // as does axios. So... data.data                             
-        })
-        console.log(data.data);
+          results: res.data
+        });
+        this.points=this.state.results.map((element)=><li> {element.name} </li>);
+        console.log(this.points);
+        
       }).catch((err)=>{
         console.log(err);
       });
@@ -46,7 +46,7 @@ class Search extends Component {
           ref={input => this.search = input}
           onChange={this.handleInputChange}
         />
-        <p>{this.state.query}</p>
+        <ul> {this.points}</ul>
       </form>
     )
   }

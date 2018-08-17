@@ -9,13 +9,14 @@ const mongoose=require('./db/mongoose');
 const {productModel}=require('./Models/product');
 const express =require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 //////////////////////////
-
 
 
 let port = process.env.PORT;
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 
 app.get('/searchName/:line',(req,res)=>{
@@ -25,7 +26,7 @@ app.get('/searchName/:line',(req,res)=>{
     ).limit(10)
      .then((docs=>{
         console.log("done");
-        res.send(docs);
+        res.status(200).send(docs);
     })).catch((err)=>{
         res.status(404).send(err)
     });
