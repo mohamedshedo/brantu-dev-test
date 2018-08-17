@@ -35,10 +35,10 @@ class Search extends Component {
       query: this.search.value
     }, () => {
       if (this.state.query && this.state.query.length > 0) {
-        if (this.state.query.length % 2 === 0) {
+       
           console.log('change');
           this.getInfo()
-        }
+        
       }else if(this.state.query.length<=1){
         this.setState({results:[]});
       } 

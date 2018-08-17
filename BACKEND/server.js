@@ -23,13 +23,18 @@ app.get('/searchName/:line',(req,res)=>{
 
     productModel.find({$or:[
         { "name": { "$regex": req.params.line, "$options": "i" }},
-        {"category.name": { "$regex": req.params.line, "$options": "i" }}
+        {"category.name": { "$regex": req.params.line, "$options": "i" }},
+        { "brand": { "$regex": req.params.line, "$options": "i" }}
     ] }
     ).limit(10)
      .then((docs)=>{
+         if(!docs){
+        res.status(404).send();
+         }else{
         res.status(200).send(docs);
+         }
     }).catch((err)=>{
-        res.status(404).send(err)
+        res.status(400).send(err)
     });
 
     
