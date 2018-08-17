@@ -14,21 +14,27 @@ class Search extends Component {
   getInfo =_.debounce(() => {
     axios.get(`${API_URL}/${this.state.query}`)
       .then((res) => {
+
+        if(!res||res.data.length===0){
+          this.setState({
+            results: [{name:"no product found"}]
+          });
+        }else{
         this.setState({
           results: res.data
         });
-      
-        
+      }
+
       }).catch((err)=>{
-        console.log(err);
+        console.log(err.response);
       });
-  },1000);
+  },2000);
 
   handleInputChange = () => {
     this.setState({
       query: this.search.value
     }, () => {
-      if (this.state.query && this.state.query.length > 1) {
+      if (this.state.query && this.state.query.length > 0) {
         if (this.state.query.length % 2 === 0) {
           console.log('change');
           this.getInfo()
@@ -46,11 +52,13 @@ class Search extends Component {
           placeholder="Search for..."
           ref={input => this.search = input}
           onChange={this.handleInputChange}
+          
         />
+        
            <ul className="list-group text-center">
               {
-                this.state.results.map(function(key,i) {
-                  return <li className="list-group-item list-group-item-info">{key.name}</li>
+                this.state.results.map(function(element,i) {
+                  return <li className="list-group-item list-group-item-info" key={i}>{element.name}</li>
                 })
               }
             </ul>

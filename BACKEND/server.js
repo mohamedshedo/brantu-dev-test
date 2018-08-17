@@ -21,13 +21,15 @@ app.use(cors());
 
 app.get('/searchName/:line',(req,res)=>{
 
-    productModel.find(
-        { "name": { "$regex": req.params.line, "$options": "i" } }
+    productModel.find({$or:[
+        { "name": { "$regex": req.params.line, "$options": "i" }},
+        {"category.name": { "$regex": req.params.line, "$options": "i" }}
+    ] }
     ).limit(10)
-     .then((docs=>{
+     .then((docs)=>{
         console.log("done");
         res.status(200).send(docs);
-    })).catch((err)=>{
+    }).catch((err)=>{
         res.status(404).send(err)
     });
 
