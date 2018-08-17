@@ -12,7 +12,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node BACKEND/server.js"
+    "start": "node BACKEND/server.js",
+    "client":"cd FRONTEND/my-app && npm run start",
+    "server":"node BACKEND/server.js"
   },
   "repository": {
     "type": "git",
